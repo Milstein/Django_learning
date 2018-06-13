@@ -7,21 +7,31 @@ from django.views import generic
 
 from .models import Question, Choice
 
+
 class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
-    context_object_name = 'latest_questions'
+    # the ListView generic view uses a default template called <app name>/<model name>_list.html i.e.
+    # polls/question_list.html if not set 'template_name'
+    # template_name = 'polls/index.html'
+
+    # The automatically generated context variable is 'question_list' if not set this variable 'context_object_name'
+    # context_object_name = 'latest_questions'
 
     def get_queryset(self):
         return Question.objects.order_by('-pub_date')[:5]
 
 
 class DeatailView(generic.DetailView):
-    template_name = 'polls/detail.html'
+    # By default, the DetailView generic view uses a template called <app name>/<model name>_detail.html i.e.
+    # 'polls/question_detail.html' if not set 'template_name'
+    # template_name = 'polls/detail.html'
     model = Question
 
+
 class ResultView(generic.DetailView):
+    # overriding default detailview template
     template_name = 'polls/result.html'
     model = Question
+
 
 def index(request):
     latest_questions = Question.objects.order_by('-pub_date')[:5]
@@ -39,16 +49,15 @@ def vote(request, question_id):
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except(KeyError, Choice.DoesNotExist):
-        return render(request, 'polls/detail.html', {'question': question, 'error_message': 'Please select the choice First!'})
+        return render(request, 'polls/detail.html',
+                      {'question': question, 'error_message': 'Please select the choice First!'})
     else:
         selected_choice.vote += 1
         selected_choice.save()
 
-        return HttpResponseRedirect(reverse('polls:result', args=(question_id, )))
+        return HttpResponseRedirect(reverse('polls:result', args=(question_id,)))
+
 
 def result(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/result.html', {'question': question})
-
-
-
