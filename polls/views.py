@@ -15,13 +15,13 @@ class IndexView(generic.ListView):
         return Question.objects.order_by('-pub_date')[:5]
 
 
-class DetailView(generic.DetailView):
-    model = Question
+class DeatailView(generic.DetailView):
     template_name = 'polls/detail.html'
+    model = Question
 
 class ResultView(generic.DetailView):
-    model = Question
     template_name = 'polls/result.html'
+    model = Question
 
 def index(request):
     latest_questions = Question.objects.order_by('-pub_date')[:5]

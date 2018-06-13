@@ -15,10 +15,10 @@ app_name = 'polls'
     #path('<int:question_id>/result', views.result, name='result'),
 #]
 
-urlpatterns=[
-    path('', views.IndexView.as_view(), name='index'),
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-    path('<int:pk>/result/', views.ResultView.as_view(), name='result'),
-    path('<int:question_id>/vote/', views.vote, name='vote'),
-]
 
+urlpatterns = [
+    path('', views.IndexView.as_view(), name='index'),
+    path('<int:pk>', views.DeatailView.as_view(), name='detail'),
+    path('<int:question_id>/vote', views.vote, name='vote'),
+    path('<int:pk>/result', views.ResultView.as_view(), name='result'),
+]
