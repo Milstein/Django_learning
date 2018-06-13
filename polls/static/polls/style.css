@@ -2,3 +2,7 @@
      color: red;
      font-size: 65px;
  }
+
+ body {
+    background: white url("images/background.gif") no-repeat;
+}
